@@ -24,6 +24,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CrudSection, ImageField } from "@/components/admin/CrudSection";
 import { db, errMessage } from "@/lib/db";
 import { profileQuery, type Profile } from "@/lib/portfolio";
+import { validateValues } from "@/lib/validate";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -266,6 +267,7 @@ function ProfileForm({ variant }: { variant: keyof typeof groups }) {
   const qc = useQueryClient();
   const { data } = useQuery(profileQuery);
   const [edits, setEdits] = useState<Record<string, unknown>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const save = useMutation({
     mutationFn: async () => {
@@ -274,8 +276,9 @@ function ProfileForm({ variant }: { variant: keyof typeof groups }) {
       if (error) throw new Error(errMessage(error));
     },
     onSuccess: () => {
-      toast.success("Saved");
+      toast.success("Changes saved successfully.");
       setEdits({});
+      setErrors({});
       qc.invalidateQueries({ queryKey: ["profile"] });
     },
     onError: (e: Error) => toast.error(e.message),
@@ -316,8 +319,12 @@ function ProfileForm({ variant }: { variant: keyof typeof groups }) {
                   id={f.key}
                   rows={4}
                   value={value(f.key) as string}
+                  aria-invalid={Boolean(errors[f.key])}
                   onChange={(e) => setEdits({ ...edits, [f.key]: e.target.value })}
                 />
+                {errors[f.key] ? (
+                  <p className="text-sm text-destructive">{errors[f.key]}</p>
+                ) : null}
               </div>
             );
           }
@@ -327,13 +334,28 @@ function ProfileForm({ variant }: { variant: keyof typeof groups }) {
               <Input
                 id={f.key}
                 value={value(f.key) as string}
+                aria-invalid={Boolean(errors[f.key])}
                 onChange={(e) => setEdits({ ...edits, [f.key]: e.target.value })}
               />
+              {errors[f.key] ? <p className="text-sm text-destructive">{errors[f.key]}</p> : null}
             </div>
           );
         })}
         <div className="sm:col-span-2">
-          <Button onClick={() => save.mutate()} disabled={save.isPending}>
+          <Button
+            onClick={() => {
+              const keys = (groups[variant] ?? []).map((f) => f.key);
+              const merged = { ...(data as unknown as Record<string, unknown>), ...edits };
+              const errs = validateValues(merged, keys);
+              setErrors(errs);
+              if (Object.keys(errs).length > 0) {
+                toast.error("Please fix the highlighted fields.");
+                return;
+              }
+              save.mutate();
+            }}
+            disabled={save.isPending || Object.keys(edits).length === 0}
+          >
             <Save className="h-4 w-4" /> Save changes
           </Button>
         </div>

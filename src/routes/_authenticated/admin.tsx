@@ -296,7 +296,7 @@ function ProfileForm({ variant }: { variant: keyof typeof groups }) {
     <section>
       <h2 className="mb-5 text-xl font-bold tracking-tight">{titleMap[variant]}</h2>
       <div className="card-surface grid gap-4 p-5 sm:grid-cols-2">
-        {groups[variant].map((f) => {
+        {(groups[variant] ?? []).map((f) => {
           if (f.type === "image") {
             return (
               <div key={f.key} className="sm:col-span-2">

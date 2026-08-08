@@ -233,7 +233,9 @@ function StatCard({ label, table }: { label: string; table: string }) {
   );
 }
 
-const groups = {
+type PField = { key: string; label: string; type?: "textarea" | "image" };
+
+const groups: Record<string, PField[]> = {
   profile: [
     { key: "name", label: "Name" },
     { key: "tagline", label: "Tagline" },

@@ -79,8 +79,8 @@ export function Nav({ name }: { name: string }) {
       </nav>
 
       <div
-        className={`overflow-hidden border-t border-border bg-background/95 backdrop-blur-md transition-[max-height,opacity] duration-300 lg:hidden ${
-          open ? "max-h-[80vh] opacity-100" : "max-h-0 opacity-0"
+        className={`overflow-y-auto overscroll-contain border-t border-border bg-background shadow-lg transition-[max-height,opacity] duration-300 lg:hidden ${
+          open ? "max-h-[calc(100dvh-4rem)] opacity-100" : "max-h-0 overflow-hidden opacity-0"
         }`}
       >
         <ul className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">

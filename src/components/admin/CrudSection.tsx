@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { db, errMessage } from "@/lib/db";
 import { fileToDataUrl } from "@/lib/image";
+import { validateValues } from "@/lib/validate";
 
 export type FieldType = "text" | "textarea" | "image" | "switch";
 
@@ -100,6 +101,7 @@ export function CrudSection({
 }) {
   const qc = useQueryClient();
   const [draft, setDraft] = useState<Record<string, unknown> | null>(null);
+  const [draftErrors, setDraftErrors] = useState<Record<string, string>>({});
 
   const { data: rows = [] } = useQuery({
     queryKey: [table],
@@ -122,6 +124,7 @@ export function CrudSection({
     onSuccess: () => {
       toast.success("Added");
       setDraft(null);
+      setDraftErrors({});
       invalidate();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -178,9 +181,20 @@ export function CrudSection({
       {draft ? (
         <div className="card-surface mb-6 space-y-4 border-accent/50 p-5">
           <h3 className="font-semibold">New entry</h3>
-          <RowFields fields={fields} values={draft} onChange={setDraft} />
+          <RowFields fields={fields} values={draft} onChange={setDraft} errors={draftErrors} />
           <div className="flex gap-2">
-            <Button onClick={() => create.mutate(draft)} disabled={create.isPending}>
+            <Button
+              onClick={() => {
+                const errs = validateValues(draft, fields.map((f) => f.key));
+                setDraftErrors(errs);
+                if (Object.keys(errs).length > 0) {
+                  toast.error("Please fix the highlighted fields.");
+                  return;
+                }
+                create.mutate(draft);
+              }}
+              disabled={create.isPending}
+            >
               <Save className="h-4 w-4" /> Save
             </Button>
             <Button variant="ghost" onClick={() => setDraft(null)}>
@@ -215,10 +229,12 @@ function RowFields({
   fields,
   values,
   onChange,
+  errors = {},
 }: {
   fields: FieldDef[];
   values: Record<string, unknown>;
   onChange: (v: Record<string, unknown>) => void;
+  errors?: Record<string, string>;
 }) {
   const set = (k: string, v: unknown) => onChange({ ...values, [k]: v });
   return (
@@ -253,8 +269,12 @@ function RowFields({
                 rows={4}
                 value={(val as string) ?? ""}
                 placeholder={f.placeholder}
+                aria-invalid={Boolean(errors[f.key])}
                 onChange={(e) => set(f.key, e.target.value)}
               />
+              {errors[f.key] ? (
+                <p className="text-sm text-destructive">{errors[f.key]}</p>
+              ) : null}
             </div>
           );
         }
@@ -265,8 +285,10 @@ function RowFields({
               id={f.key}
               value={(val as string) ?? ""}
               placeholder={f.placeholder}
+              aria-invalid={Boolean(errors[f.key])}
               onChange={(e) => set(f.key, e.target.value)}
             />
+            {errors[f.key] ? <p className="text-sm text-destructive">{errors[f.key]}</p> : null}
           </div>
         );
       })}
@@ -292,10 +314,11 @@ function RowEditor({
   onDelete: () => void;
 }) {
   const [values, setValues] = useState<Record<string, unknown>>(row);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   return (
     <div className="card-surface space-y-4 p-5">
-      <RowFields fields={fields} values={values} onChange={setValues} />
+      <RowFields fields={fields} values={values} onChange={setValues} errors={errors} />
       <div className="flex flex-wrap items-center gap-2">
         <div className="flex items-center gap-2">
           <Label htmlFor={`order-${row.id}`} className="text-xs text-muted-foreground">
@@ -329,7 +352,18 @@ function RowEditor({
         >
           <ArrowDown className="h-4 w-4" />
         </Button>
-        <Button type="button" onClick={() => onSave(values)}>
+        <Button
+          type="button"
+          onClick={() => {
+            const errs = validateValues(values, fields.map((f) => f.key));
+            setErrors(errs);
+            if (Object.keys(errs).length > 0) {
+              toast.error("Please fix the highlighted fields.");
+              return;
+            }
+            onSave(values);
+          }}
+        >
           <Save className="h-4 w-4" /> Save
         </Button>
         <AlertDialog>

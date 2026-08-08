@@ -26,7 +26,7 @@ import {
   waLink,
 } from "@/lib/portfolio";
 
-export type SectionState = { loading?: boolean; error?: unknown };
+export type SectionState = { loading?: boolean | undefined; error?: unknown };
 
 function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (

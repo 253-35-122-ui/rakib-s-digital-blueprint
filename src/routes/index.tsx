@@ -19,49 +19,87 @@ import {
   skillsQuery,
 } from "@/lib/portfolio";
 
+const TITLE = "MD Abu Hasnat Rakib | Civil Engineering Student & Creative Enthusiast";
+const DESCRIPTION =
+  "Portfolio of MD Abu Hasnat Rakib — Civil Engineering student at Daffodil International University, truss competitor, stand-up comedian and content creator.";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "MD Abu Hasnat Rakib | Civil Engineering Student & Creative Enthusiast" },
-      {
-        name: "description",
-        content:
-          "Portfolio of MD Abu Hasnat Rakib — Civil Engineering student at Daffodil International University, truss competitor, stand-up comedian and content creator.",
-      },
-      {
-        property: "og:title",
-        content: "MD Abu Hasnat Rakib | Civil Engineering Student & Creative Enthusiast",
-      },
-      {
-        property: "og:description",
-        content:
-          "Civil Engineering, truss competitions, public speaking, stand-up comedy and content creation.",
-      },
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "profile" },
+      { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "MD Abu Hasnat Rakib",
+          jobTitle: "Civil Engineering Student",
+          affiliation: { "@type": "CollegeOrUniversity", name: "Daffodil International University" },
+          knowsAbout: [
+            "Civil Engineering",
+            "Truss Making",
+            "Stand-Up Comedy",
+            "Video Editing",
+            "Script Writing",
+            "Public Speaking",
+          ],
+        }),
+      },
     ],
   }),
   component: Index,
 });
 
 function Index() {
-  const profile = useQuery(profileQuery).data ?? null;
-  const academic = useQuery(academicQuery).data ?? [];
-  const skills = useQuery(skillsQuery).data ?? [];
-  const achievements = useQuery(achievementsQuery).data ?? [];
-  const competitions = useQuery(competitionsQuery).data ?? [];
-  const gallery = useQuery(galleryQuery).data ?? [];
+  const profileQ = useQuery(profileQuery);
+  const academicQ = useQuery(academicQuery);
+  const skillsQ = useQuery(skillsQuery);
+  const achievementsQ = useQuery(achievementsQuery);
+  const competitionsQ = useQuery(competitionsQuery);
+  const galleryQ = useQuery(galleryQuery);
+
+  const profile = profileQ.data ?? null;
+  const skills = skillsQ.data ?? [];
+  const achievements = achievementsQ.data ?? [];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen overflow-x-hidden bg-background">
       <Nav name={profile?.name ?? "MD Abu Hasnat Rakib"} />
       <main>
-        <Hero profile={profile} />
-        <About profile={profile} skills={skills} />
-        <Academic entries={academic} skills={skills} />
-        <StandUp profile={profile} skills={skills} />
-        <Achievements achievements={achievements} competitions={competitions} />
-        <Gallery photos={gallery} />
+        <Hero profile={profile} skills={skills} />
+        <About
+          profile={profile}
+          skills={skills}
+          loading={skillsQ.isLoading || profileQ.isLoading}
+          error={skillsQ.error ?? profileQ.error}
+        />
+        <Academic
+          entries={academicQ.data ?? []}
+          skills={skills}
+          loading={academicQ.isLoading}
+          error={academicQ.error}
+        />
+        <StandUp profile={profile} skills={skills} achievements={achievements} />
+        <Achievements
+          achievements={achievements}
+          competitions={competitionsQ.data ?? []}
+          loading={achievementsQ.isLoading || competitionsQ.isLoading}
+          error={achievementsQ.error ?? competitionsQ.error}
+        />
+        <Gallery
+          photos={galleryQ.data ?? []}
+          loading={galleryQ.isLoading}
+          error={galleryQ.error}
+        />
         <Contact profile={profile} />
       </main>
       <footer className="border-t border-border py-8">

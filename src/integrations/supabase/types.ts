@@ -14,16 +14,243 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      academic_entries: {
+        Row: {
+          created_at: string
+          detail: string
+          display_order: number
+          id: string
+          institution: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          detail?: string
+          display_order?: number
+          id?: string
+          institution?: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          detail?: string
+          display_order?: number
+          id?: string
+          institution?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      achievements: {
+        Row: {
+          created_at: string
+          description: string
+          display_order: number
+          id: string
+          image_url: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      competitions: {
+        Row: {
+          created_at: string
+          detail: string
+          display_order: number
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          detail?: string
+          display_order?: number
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          detail?: string
+          display_order?: number
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      gallery_photos: {
+        Row: {
+          caption: string
+          created_at: string
+          display_order: number
+          featured: boolean
+          id: string
+          image_url: string
+          title: string
+        }
+        Insert: {
+          caption?: string
+          created_at?: string
+          display_order?: number
+          featured?: boolean
+          id?: string
+          image_url: string
+          title?: string
+        }
+        Update: {
+          caption?: string
+          created_at?: string
+          display_order?: number
+          featured?: boolean
+          id?: string
+          image_url?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      profile: {
+        Row: {
+          about: string
+          bio: string
+          content_page_desc: string
+          content_page_name: string
+          content_page_url: string
+          created_at: string
+          department: string
+          email: string
+          facebook: string
+          id: string
+          instagram: string
+          name: string
+          phone: string
+          photo_url: string | null
+          semester: string
+          standup_text: string
+          tagline: string
+          university: string
+          updated_at: string
+          whatsapp: string
+        }
+        Insert: {
+          about?: string
+          bio?: string
+          content_page_desc?: string
+          content_page_name?: string
+          content_page_url?: string
+          created_at?: string
+          department?: string
+          email?: string
+          facebook?: string
+          id?: string
+          instagram?: string
+          name?: string
+          phone?: string
+          photo_url?: string | null
+          semester?: string
+          standup_text?: string
+          tagline?: string
+          university?: string
+          updated_at?: string
+          whatsapp?: string
+        }
+        Update: {
+          about?: string
+          bio?: string
+          content_page_desc?: string
+          content_page_name?: string
+          content_page_url?: string
+          created_at?: string
+          department?: string
+          email?: string
+          facebook?: string
+          id?: string
+          instagram?: string
+          name?: string
+          phone?: string
+          photo_url?: string | null
+          semester?: string
+          standup_text?: string
+          tagline?: string
+          university?: string
+          updated_at?: string
+          whatsapp?: string
+        }
+        Relationships: []
+      }
+      skills: {
+        Row: {
+          category: string
+          created_at: string
+          display_order: number
+          id: string
+          name: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          name: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +377,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin"],
+    },
   },
 } as const

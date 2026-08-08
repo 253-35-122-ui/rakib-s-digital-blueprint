@@ -62,13 +62,23 @@ export type GalleryPhoto = {
 };
 
 async function ordered<T>(table: string): Promise<T[]> {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as unknown as {
+    from: (t: string) => {
+      select: (s: string) => {
+        order: (
+          c: string,
+          o: { ascending: boolean },
+        ) => Promise<{ data: unknown; error: { message: string } | null }>;
+      };
+    };
+  })
     .from(table)
     .select("*")
     .order("display_order", { ascending: true });
-  if (error) throw error;
+  if (error) throw new Error(error.message);
   return (data ?? []) as T[];
 }
+
 
 export const profileQuery = {
   queryKey: ["profile"],

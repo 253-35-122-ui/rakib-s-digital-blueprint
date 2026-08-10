@@ -44,7 +44,13 @@ export function Nav({ name }: { name: string }) {
         scrolled ? "border-b border-border bg-background/85 backdrop-blur-md" : "bg-transparent"
       }`}
     >
+      <div
+        className="absolute inset-x-0 top-0 h-0.5 origin-left"
+        style={{ background: "var(--gradient-amber)", transform: `scaleX(${progress})` }}
+        aria-hidden="true"
+      />
       <nav className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 sm:px-6">
+
         <a href="#home" className="flex min-w-0 items-center gap-2">
           <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md gradient-ink text-sm font-bold text-primary-foreground">
             {initials || "R"}

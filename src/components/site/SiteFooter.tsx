@@ -60,30 +60,30 @@ export function SiteFooter({ name }: { name: string }) {
 
           <div
             ref={ref}
-            className="group relative w-full max-w-md rounded-xl border border-border/80 bg-card/60 px-5 py-4 backdrop-blur-md corner-marks"
+            className="relative rounded-xl border border-border/80 bg-card/60 px-6 py-4 backdrop-blur-md corner-marks"
           >
             <span
               className="pointer-events-none absolute inset-x-6 -top-px h-px pulse-line"
               style={{ background: "var(--gradient-cad)" }}
               aria-hidden="true"
             />
-            <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
-              <span className="text-cad">$</span> developed_by
-            </p>
-            <a
-              href="https://bd.linkedin.com/in/sadman-nahial-nafi"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-text={CREDIT}
-              className="glitch mt-1 inline-flex items-baseline font-display text-lg font-bold tracking-tight text-gradient sm:text-xl"
-            >
-              {typed || "\u00A0"}
-              <span className="caret ml-0.5 inline-block h-[1em] w-[2px] translate-y-[0.1em] bg-accent" />
-            </a>
-            <p className="mt-1 font-mono text-[10px] tracking-widest text-muted-foreground">
-              &lt;/&gt; software engineering · linkedin
+            <p className="flex flex-wrap items-baseline justify-center gap-2">
+              <span className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                Developed By
+              </span>
+              <a
+                href="https://bd.linkedin.com/in/sadman-nahial-nafi"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-text={CREDIT}
+                className="glitch inline-flex items-baseline font-display text-lg font-bold tracking-tight text-gradient sm:text-xl"
+              >
+                {typed || "\u00A0"}
+                <span className="caret ml-0.5 inline-block h-[1em] w-[2px] translate-y-[0.1em] bg-accent" />
+              </a>
             </p>
           </div>
+
         </div>
       </div>
     </footer>

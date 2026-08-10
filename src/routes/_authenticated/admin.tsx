@@ -178,6 +178,7 @@ function AdminPage() {
               title="Gallery"
               description="Upload photos, set captions, mark featured and control the order."
               defaults={{ title: "", caption: "", image_url: "", featured: false }}
+              optionalFields={["title"]}
               fields={[
                 { key: "image_url", label: "Photo", type: "image" },
                 { key: "title", label: "Title" },

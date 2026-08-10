@@ -92,12 +92,14 @@ export function CrudSection({
   description,
   fields,
   defaults,
+  optionalFields = [],
 }: {
   table: string;
   title: string;
   description: string;
   fields: FieldDef[];
   defaults: Record<string, unknown>;
+  optionalFields?: string[];
 }) {
   const qc = useQueryClient();
   const [draft, setDraft] = useState<Record<string, unknown> | null>(null);
@@ -185,7 +187,7 @@ export function CrudSection({
           <div className="flex gap-2">
             <Button
               onClick={() => {
-                const errs = validateValues(draft, fields.map((f) => f.key));
+                const errs = validateValues(draft, fields.map((f) => f.key), { optional: optionalFields });
                 setDraftErrors(errs);
                 if (Object.keys(errs).length > 0) {
                   toast.error("Please fix the highlighted fields.");
@@ -213,6 +215,7 @@ export function CrudSection({
             index={i}
             total={rows.length}
             onMove={move}
+            optionalFields={optionalFields}
             onSave={(values) => update.mutate({ id: row.id, values })}
             onDelete={() => remove.mutate(row.id)}
           />
@@ -301,6 +304,7 @@ function RowEditor({
   fields,
   index,
   total,
+  optionalFields = [],
   onMove,
   onSave,
   onDelete,
@@ -309,6 +313,7 @@ function RowEditor({
   fields: FieldDef[];
   index: number;
   total: number;
+  optionalFields?: string[];
   onMove: (index: number, dir: -1 | 1) => void;
   onSave: (values: Record<string, unknown>) => void;
   onDelete: () => void;
@@ -355,7 +360,7 @@ function RowEditor({
         <Button
           type="button"
           onClick={() => {
-            const errs = validateValues(values, fields.map((f) => f.key));
+            const errs = validateValues(values, fields.map((f) => f.key), { optional: optionalFields });
             setErrors(errs);
             if (Object.keys(errs).length > 0) {
               toast.error("Please fix the highlighted fields.");

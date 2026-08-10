@@ -392,6 +392,97 @@
   animation-delay: var(--rise-delay, 0ms);
 }
 
+/* ---------- Futuristic / software-engineering flavour ---------- */
+
+@utility circuit {
+  background-image:
+    radial-gradient(circle at 12px 12px, color-mix(in oklab, var(--cad) 45%, transparent) 1.2px, transparent 1.4px),
+    linear-gradient(to right, color-mix(in oklab, var(--cad) 14%, transparent) 1px, transparent 1px);
+  background-size:
+    48px 48px,
+    48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 78%);
+}
+
+@utility beam {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, var(--color-accent) 85%, transparent),
+    color-mix(in oklab, var(--cad) 85%, transparent),
+    transparent
+  );
+  animation: beam-sweep 5.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@utility caret {
+  animation: blink 1s steps(1, end) infinite;
+}
+
+@utility glitch {
+  position: relative;
+  &:hover::before,
+  &:hover::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+  &:hover::before {
+    color: color-mix(in oklab, var(--cad) 90%, transparent);
+    animation: glitch-x 0.5s steps(2, end) infinite;
+  }
+  &:hover::after {
+    color: color-mix(in oklab, var(--color-accent) 90%, transparent);
+    animation: glitch-x 0.42s steps(2, end) reverse infinite;
+  }
+}
+
+@keyframes beam-sweep {
+  0%,
+  100% {
+    transform: translateX(-40%) scaleX(0.5);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateX(40%) scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes glitch-x {
+  0% {
+    transform: translate(0, 0);
+    clip-path: inset(0 0 62% 0);
+  }
+  50% {
+    transform: translate(-2px, 1px);
+    clip-path: inset(58% 0 0 0);
+  }
+  100% {
+    transform: translate(2px, -1px);
+    clip-path: inset(0 0 62% 0);
+  }
+}
+
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -16,13 +16,19 @@ const links = [
 export function Nav({ name }: { name: string }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 12);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(1, window.scrollY / max) : 0);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -44,7 +50,13 @@ export function Nav({ name }: { name: string }) {
         scrolled ? "border-b border-border bg-background/85 backdrop-blur-md" : "bg-transparent"
       }`}
     >
+      <div
+        className="absolute inset-x-0 top-0 h-0.5 origin-left"
+        style={{ background: "var(--gradient-amber)", transform: `scaleX(${progress})` }}
+        aria-hidden="true"
+      />
       <nav className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 sm:px-6">
+
         <a href="#home" className="flex min-w-0 items-center gap-2">
           <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md gradient-ink text-sm font-bold text-primary-foreground">
             {initials || "R"}

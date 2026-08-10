@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Nav } from "@/components/site/Nav";
+import { SiteFooter } from "@/components/site/SiteFooter";
+
 import {
   About,
   Academic,
@@ -102,12 +104,8 @@ function Index() {
         />
         <Contact profile={profile} />
       </main>
-      <footer className="border-t border-border py-8">
-        <p className="mx-auto max-w-6xl px-4 text-center text-sm text-muted-foreground sm:px-6">
-          © {new Date().getFullYear()} {profile?.name ?? "MD Abu Hasnat Rakib"} · Civil Engineering,
-          Daffodil International University
-        </p>
-      </footer>
+      <SiteFooter name={profile?.name ?? "MD Abu Hasnat Rakib"} />
+
     </div>
   );
 }

@@ -188,7 +188,11 @@ export function CrudSection({
             <Button
               onClick={() => {
                 const errs = validateValues(draft, fields.map((f) => f.key), { optional: optionalFields });
+                for (const f of fields) {
+                  if (f.type === "image" && !draft[f.key]) errs[f.key] = "Please upload an image.";
+                }
                 setDraftErrors(errs);
+
                 if (Object.keys(errs).length > 0) {
                   toast.error("Please fix the highlighted fields.");
                   return;

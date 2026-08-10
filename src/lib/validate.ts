@@ -1,10 +1,16 @@
 /** Lightweight field validators used by the admin forms. */
 
-export function validateField(key: string, raw: unknown): string | null {
-  const value = typeof raw === "string" ? raw.trim() : "";
+export type ValidateOptions = { optional?: string[] };
 
-  if (key === "name" && !value) return "Name is required.";
-  if (key === "title" && !value) return "Title is required.";
+export function validateField(key: string, raw: unknown, options: ValidateOptions = {}): string | null {
+  const value = typeof raw === "string" ? raw.trim() : "";
+  const optional = options.optional ?? [];
+
+  // Uploaded images are stored inline as data URLs — they are not text/links.
+  if (value.startsWith("data:image/")) return null;
+
+  if (key === "name" && !value && !optional.includes("name")) return "Name is required.";
+  if (key === "title" && !value && !optional.includes("title")) return "Title is required.";
 
   if (key === "email" && value) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) return "Enter a valid email address.";
@@ -28,10 +34,14 @@ export function validateField(key: string, raw: unknown): string | null {
   return null;
 }
 
-export function validateValues(values: Record<string, unknown>, keys: string[]) {
+export function validateValues(
+  values: Record<string, unknown>,
+  keys: string[],
+  options: ValidateOptions = {},
+) {
   const errors: Record<string, string> = {};
   for (const key of keys) {
-    const message = validateField(key, values[key]);
+    const message = validateField(key, values[key], options);
     if (message) errors[key] = message;
   }
   return errors;

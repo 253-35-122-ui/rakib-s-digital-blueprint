@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import profileAsset from "@/assets/rakib-profile.jpg.asset.json";
+
 
 const links = [
   { id: "home", label: "Home" },
@@ -58,11 +60,15 @@ export function Nav({ name }: { name: string }) {
       <nav className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 sm:px-6">
 
         <a href="#home" className="flex min-w-0 items-center gap-2">
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-md gradient-ink text-sm font-bold text-primary-foreground">
-            {initials || "R"}
-          </span>
+          <img
+            src={profileAsset.url}
+            alt={`${name} logo`}
+            className="h-9 w-9 shrink-0 rounded-md object-cover ring-1 ring-border"
+            loading="eager"
+          />
           <span className="truncate text-sm font-semibold tracking-tight">{name}</span>
         </a>
+
 
         <div className="hidden items-center gap-1 lg:flex">
           {links.map((l) => (

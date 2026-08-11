@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import profileAsset from "@/assets/rakib-profile.jpg.asset.json";
+
 
 
 const links = [
@@ -75,9 +74,6 @@ export function Nav({ name }: { name: string }) {
               {l.label}
             </a>
           ))}
-          <Button asChild size="sm" className="ml-2">
-            <Link to="/admin">Admin</Link>
-          </Button>
         </div>
 
         <button
@@ -108,11 +104,6 @@ export function Nav({ name }: { name: string }) {
               </a>
             </li>
           ))}
-          <li className="pt-1">
-            <Button asChild className="w-full" onClick={() => setOpen(false)}>
-              <Link to="/admin">Admin Panel</Link>
-            </Button>
-          </li>
         </ul>
       </div>
     </header>

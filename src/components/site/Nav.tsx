@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import profileAsset from "@/assets/rakib-profile.jpg.asset.json";
+
 
 
 const links = [

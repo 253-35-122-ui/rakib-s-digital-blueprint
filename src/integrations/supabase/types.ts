@@ -135,6 +135,7 @@ export type Database = {
           facebook: string
           id: string
           instagram: string
+          logo_url: string | null
           name: string
           phone: string
           photo_url: string | null
@@ -157,6 +158,7 @@ export type Database = {
           facebook?: string
           id?: string
           instagram?: string
+          logo_url?: string | null
           name?: string
           phone?: string
           photo_url?: string | null
@@ -179,6 +181,7 @@ export type Database = {
           facebook?: string
           id?: string
           instagram?: string
+          logo_url?: string | null
           name?: string
           phone?: string
           photo_url?: string | null

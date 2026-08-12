@@ -15,6 +15,7 @@ export type Profile = {
   content_page_url: string;
   content_page_desc: string;
   photo_url: string | null;
+  logo_url: string | null;
   phone: string;
   whatsapp: string;
   email: string;

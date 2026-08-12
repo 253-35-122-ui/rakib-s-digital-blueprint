@@ -247,6 +247,7 @@ const groups: Record<string, PField[]> = {
     { key: "bio", label: "Hero intro", type: "textarea" as const },
     { key: "about", label: "About text", type: "textarea" as const },
     { key: "photo_url", label: "Profile photo", type: "image" as const },
+    { key: "logo_url", label: "Navbar logo (falls back to profile photo)", type: "image" as const },
   ],
   standup: [
     { key: "standup_text", label: "Stand-up section text", type: "textarea" as const },

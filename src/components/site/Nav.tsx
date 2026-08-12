@@ -14,7 +14,7 @@ const links = [
   { id: "contact", label: "Contact" },
 ];
 
-export function Nav({ name }: { name: string }) {
+export function Nav({ name, logo }: { name: string; logo?: string | null }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -55,7 +55,7 @@ export function Nav({ name }: { name: string }) {
 
         <a href="#home" className="flex min-w-0 items-center gap-2">
           <img
-            src={profileAsset.url}
+            src={logo || profileAsset.url}
             alt={`${name} logo`}
             className="h-9 w-9 shrink-0 rounded-md object-cover ring-1 ring-border"
             loading="eager"

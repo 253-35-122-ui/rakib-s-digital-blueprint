@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Nav } from "@/components/site/Nav";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import profileAsset from "@/assets/rakib-profile.jpg.asset.json";
 
 import {
   About,

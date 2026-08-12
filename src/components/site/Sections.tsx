@@ -247,10 +247,10 @@ export function Hero({ profile, skills }: { profile: Profile | null; skills: Ski
           />
           <div className="card-surface corner-marks scanline noise relative overflow-hidden p-3 glow-ring">
             <div className="aspect-4/5 w-full overflow-hidden rounded-lg bg-secondary">
-              {profile?.photo_url ? (
+              {(
                 <img
-                  src={profile.photo_url}
-                  alt={`Portrait of ${profile.name}`}
+                  src={profile?.photo_url || profileAsset.url}
+                  alt={`Portrait of ${profile?.name ?? "MD Abu Hasnat Rakib"}`}
                   className="h-full w-full object-cover object-top transition-transform duration-[1.2s] hover:scale-105"
                   width={640}
                   height={800}

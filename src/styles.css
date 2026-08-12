@@ -482,6 +482,97 @@
   }
 }
 
+/* ---------- Navbar: civil-engineering motion ---------- */
+
+@utility survey-tape {
+  background-image: repeating-linear-gradient(
+    to right,
+    color-mix(in oklab, var(--cad) 55%, transparent) 0 1px,
+    transparent 1px 12px
+  );
+  animation: tape-slide 6s linear infinite;
+}
+
+.truss-stroke {
+  stroke: color-mix(in oklab, var(--cad) 45%, transparent);
+}
+
+.truss-tri {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: truss-draw 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards, truss-pulse 5s ease-in-out infinite;
+  animation-delay: var(--tri-delay, 0ms), calc(var(--tri-delay, 0ms) + 2.4s);
+}
+
+.nav-node::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  height: 1px;
+  width: 0;
+  transform: translateX(-50%);
+  background: var(--gradient-amber);
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-node:hover::before,
+.nav-node[data-active="true"]::before {
+  width: calc(100% - 1.25rem);
+}
+
+.nav-node::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  height: 5px;
+  width: 5px;
+  translate: -50% 0;
+  rotate: 45deg;
+  background: var(--color-accent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-node:hover::after,
+.nav-node[data-active="true"]::after {
+  opacity: 1;
+  animation: rivet-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes tape-slide {
+  to {
+    background-position-x: 48px;
+  }
+}
+
+@keyframes truss-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes truss-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes rivet-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-accent) 60%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 4px transparent;
+  }
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   html {

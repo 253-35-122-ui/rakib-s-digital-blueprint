@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Reveal } from "@/components/site/Reveal";
+import profileAsset from "@/assets/rakib-profile.jpg.asset.json";
 import {
   type Achievement,
   type AcademicEntry,
@@ -247,22 +248,17 @@ export function Hero({ profile, skills }: { profile: Profile | null; skills: Ski
           />
           <div className="card-surface corner-marks scanline noise relative overflow-hidden p-3 glow-ring">
             <div className="aspect-4/5 w-full overflow-hidden rounded-lg bg-secondary">
-              {profile?.photo_url ? (
-                <img
-                  src={profile.photo_url}
-                  alt={`Portrait of ${profile.name}`}
-                  className="h-full w-full object-cover object-top transition-transform duration-[1.2s] hover:scale-105"
-                  width={640}
-                  height={800}
-                  loading="eager"
-                  fetchPriority="high"
-                  decoding="async"
-                />
-              ) : (
-                <div className="grid h-full w-full place-items-center px-6 text-center text-sm text-muted-foreground">
-                  Upload a formal profile photo from the admin panel
-                </div>
-              )}
+              <img
+                src={profile?.photo_url || profileAsset.url}
+                alt={`Portrait of ${profile?.name ?? "MD Abu Hasnat Rakib"}`}
+                className="h-full w-full object-cover object-top transition-transform duration-[1.2s] hover:scale-105"
+                width={640}
+                height={800}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+              />
+
             </div>
             <div className="flex items-center justify-between px-1 pt-3 pb-1">
               <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">

@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Nav } from "@/components/site/Nav";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import profileAsset from "@/assets/rakib-profile.jpg.asset.json";
 
 import {
   About,
@@ -36,7 +37,10 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [
+      { rel: "canonical", href: "/" },
+      { rel: "preload", as: "image", href: profileAsset.url, fetchpriority: "high" },
+    ],
     scripts: [
       {
         type: "application/ld+json",
@@ -58,6 +62,15 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
+  loader: async ({ context }) => {
+    await Promise.all([
+      context.queryClient.ensureQueryData(profileQuery),
+      context.queryClient.ensureQueryData(academicQuery),
+      context.queryClient.ensureQueryData(skillsQuery),
+      context.queryClient.ensureQueryData(achievementsQuery),
+      context.queryClient.ensureQueryData(competitionsQuery),
+    ]);
+  },
   component: Index,
 });
 

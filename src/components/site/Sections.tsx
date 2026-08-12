@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Reveal } from "@/components/site/Reveal";
+import profileAsset from "@/assets/rakib-profile.jpg.asset.json";
 import {
   type Achievement,
   type AcademicEntry,

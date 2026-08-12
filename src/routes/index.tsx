@@ -62,6 +62,15 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
+  loader: async ({ context }) => {
+    await Promise.all([
+      context.queryClient.ensureQueryData(profileQuery),
+      context.queryClient.ensureQueryData(academicQuery),
+      context.queryClient.ensureQueryData(skillsQuery),
+      context.queryClient.ensureQueryData(achievementsQuery),
+      context.queryClient.ensureQueryData(competitionsQuery),
+    ]);
+  },
   component: Index,
 });
 

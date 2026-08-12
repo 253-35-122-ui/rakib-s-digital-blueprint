@@ -75,7 +75,7 @@ function Index() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-background">
-      <Nav name={profile?.name ?? "MD Abu Hasnat Rakib"} />
+      <Nav name={profile?.name ?? "MD Abu Hasnat Rakib"} logo={profile?.logo_url ?? profile?.photo_url ?? null} />
       <main>
         <Hero profile={profile} skills={skills} />
         <About
